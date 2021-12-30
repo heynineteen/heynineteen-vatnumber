@@ -5,8 +5,8 @@ A library for validating and creating instances of Uk VAT numbers in a type safe
 
 Based on information at:
 
-https://en.wikipedia.org/wiki/VAT_identification_number
-https://discover.hubpages.com/business/Check-VAT-Numbers-UK
+- https://en.wikipedia.org/wiki/VAT_identification_number
+- https://discover.hubpages.com/business/Check-VAT-Numbers-UK
 
 
 The library is capable of parsing string representations of the 4 types of VAT numbers used in the UK:
@@ -33,9 +33,13 @@ var vatNumber = "123456783";
 var result = UkVatNumber.Validate("123456783");
 
 if(result.IsSuccess)
+{
     Console.WriteLine($"'{vatNumber}' is a valid Uk Vat number.");
+}
 else
+{
     Console.WriteLine($"'{vatNumber}' is not a valid Uk Vat number. {result.Message}");
+}
 ```
 
 ### Create an instance
