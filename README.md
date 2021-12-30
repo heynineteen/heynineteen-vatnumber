@@ -45,7 +45,7 @@ else
 ### Create an instance
 ```csharp 
 var vatNumber = "123456783";
-var result = UkVatNumber.Create("123456783");
+var result = UkVatNumber.Parse("123456783");
 
 if(result.IsSuccess)
 {
