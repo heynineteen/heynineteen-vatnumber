@@ -1,15 +1,41 @@
 ﻿namespace HeyNineteen.VatNumber
 {
+    using System;
     using System.Diagnostics;
     using System.Text.RegularExpressions;
-    using HeyNineteen.Core.Results;
+    using Core.Extensions;
+    using Core.Results;
 
+    /// <summary>
+    /// https://en.wikipedia.org/wiki/VAT_identification_number
+    /// 
+    /// Possible formats:
+    ///
+    ///     123456789
+    ///     GB123456789
+    /// </summary>
     internal class StandardFormatUkVatNumber : UkVatNumber
     {
-        public static IResult<StandardFormatUkVatNumber> Create(Match match)
+        private const string CheckDigitGroup = "checkdigit";
+        private const string NumberGroup = "number";
+     
+        private static readonly string RegexString = @$"^((GB)?(?'{NumberGroup}'[1-9][0-9]{{6}})(?'{CheckDigitGroup}'[0-9]{{2}}))$";
+
+        private static readonly Regex Regex = new(RegexString, RegexOptions.Compiled);
+
+        public new static IResult<StandardFormatUkVatNumber> Parse(string value)
         {
-            var number = match.Groups[UkVatNumberRegex.StandardNumber].Value;
-            var checkDigit = match.Groups[UkVatNumberRegex.StandardCheckDigit].Value;
+            _ = value ?? throw new ArgumentNullException(nameof(value));
+
+            var valueNoWhitespace = value.RemoveWhitespace();
+
+            var match = Regex.Match(valueNoWhitespace);
+
+            if (!match.Success)
+                return Result.Fail<StandardFormatUkVatNumber>($"{nameof(value)} is an invalid format: '{value}'");
+
+            var number = match.Groups[NumberGroup].Value;
+            var checkDigit = match.Groups[CheckDigitGroup].Value;
 
             Debug.Assert(number.Length == 7);
             Debug.Assert(checkDigit.Length == 2);

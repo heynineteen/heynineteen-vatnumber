@@ -1,49 +1,39 @@
 ﻿namespace HeyNineteen.VatNumber
 {
-    using HeyNineteen.Core.Extensions;
-    using HeyNineteen.Core.Results;
+    using Core.Results;
     using System;
+    using System.Collections.Generic;
 
     public abstract class UkVatNumber
     {
         protected const string CountryCode = "GB";
 
-        public static IResult<UkVatNumber> Create(string vatNumber)
+        private static readonly IEnumerable<Func<string, IResult<UkVatNumber>>> ParseDelegates = 
+            new Func<string, IResult<UkVatNumber>>[]
+            {
+                GovernmentDepartmentFormatUkVatNumber.Parse,
+                HealthAuthorityFormatUkVatNumber.Parse,
+                StandardFormatUkVatNumber.Parse,
+                BranchTradersFormatUkVatNumber.Parse,
+            };
+        
+        public static IResult<UkVatNumber> Parse(string vatNumber)
         {
             _ = vatNumber ?? throw new ArgumentNullException(nameof(vatNumber));
 
-            var vatNumberNoWhitespace = vatNumber.RemoveWhitespace();
+            IResult<UkVatNumber> result = null;
 
-            var match = UkVatNumberRegex.Regex.Match(vatNumberNoWhitespace);
+            foreach(var parse in ParseDelegates)
+            {
+                result = parse(vatNumber);
+                if (result.IsSuccess)
+                    break;
+            }
 
-            if (!match.Success)
-                return Result.Fail<UkVatNumber>($"{nameof(vatNumber)} is an invalid format: '{vatNumber}'");
-
-            var groups = match.Groups;
-
-            if (groups[UkVatNumberRegex.Standard].Success)
-                return StandardFormatUkVatNumber.Create(match);
-
-            if (groups[UkVatNumberRegex.GovernmentDepartment].Success)
-                return GovernmentDepartmentFormatUkVatNumber.Create(match);
-
-            if (groups[UkVatNumberRegex.HealthAuthority].Success)
-                return HealthAuthorityFormatUkVatNumber.Create(match);
-
-            if (groups[UkVatNumberRegex.GovernmentDepartmentEu].Success)
-                return GovernmentDepartmentFormatUkVatNumber.CreateFromEuFormat(match);
-
-            if (groups[UkVatNumberRegex.HealthAuthorityEu].Success)
-                return HealthAuthorityFormatUkVatNumber.CreateFromEuFormat(match);
-
-            if (groups[UkVatNumberRegex.BranchTraders].Success)
-                return BranchTradersFormatUkVatNumber.Create(match);
-
-            throw new InvalidOperationException(
-                $"{nameof(vatNumber)} '{vatNumber}' was matched but a handler was not found for the {nameof(UkVatNumberType)}");
+            return result;
         }
 
-        public static IResult Validate(string vatNumber) => Create(vatNumber);
+        public static IResult Validate(string vatNumber) => Parse(vatNumber);
 
         protected UkVatNumber(string block1, string block2, string block3, CheckDigitType checkDigitType, string block4 = null)
         {

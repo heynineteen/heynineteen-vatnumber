@@ -13,6 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeyNineteen.VatNumber.Tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{41416554-1961-463B-8AD6-F0C3AF323549}"
 	ProjectSection(SolutionItems) = preProject
+		create-nuget-package = create-nuget-package
 		README.md = README.md
 	EndProjectSection
 EndProject

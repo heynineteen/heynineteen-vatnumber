@@ -1,6 +1,6 @@
 ﻿namespace HeyNineteen.VatNumber
 {
-    using HeyNineteen.Core.Extensions;
+    using Core.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;

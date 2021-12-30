@@ -1,0 +1,4 @@
+
+dotnet pack HeyNineteen.VatNumber/HeyNineteen.VatNumber.csproj --configuration Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+
+# dotnet nuget push ./HeyNineteen.VatNumber/bin/Release/HeyNineteen.VatNumber.1.0.0.nupkg --api-key <api-key> --source https://api.nuget.org/v3/index.json

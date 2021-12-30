@@ -9,9 +9,9 @@ namespace HeyNineteen.VatNumber.Tests
     {
 
         [Test]
-        public void Create_NullValue_ThrowsException()
+        public void Parse_NullValue_ThrowsException()
         {
-            Action action = () => UkVatNumber.Create(null);
+            Action action = () => UkVatNumber.Parse(null);
 
             action.Should().Throw<ArgumentNullException>();
         }
@@ -32,7 +32,7 @@ namespace HeyNineteen.VatNumber.Tests
         }
 
         [TestCaseSource(typeof(VatNumberCases))]
-        public void Create(
+        public void Parse(
             string input,
             bool isValid,
             string shortFormat,
@@ -40,7 +40,7 @@ namespace HeyNineteen.VatNumber.Tests
             string euCompatibleFormat,
             string type)
         {
-            var result = UkVatNumber.Create(input);
+            var result = UkVatNumber.Parse(input);
 
             result.IsSuccess.Should().Be(isValid);
 

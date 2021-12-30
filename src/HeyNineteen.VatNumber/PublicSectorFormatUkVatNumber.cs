@@ -2,7 +2,7 @@
 {
     internal abstract class PublicSectorFormatUkVatNumber : UkVatNumber
     {
-        private const string Prefix = "8888";
+        protected const string Prefix = "8888";
 
         protected PublicSectorFormatUkVatNumber(string value)
             : base(value, null, UkVatNumberCheckDigit.GenerateModulos97(Prefix + value), CheckDigitType.Modulos97)
