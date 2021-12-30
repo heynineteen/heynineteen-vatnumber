@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>HeyNineteen.VatNumber</AssemblyName>
+    <RootNamespace>HeyNineteen.VatNumber</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HeyNineteen.Core" Version="2.2.0" />
+  </ItemGroup>
+
+</Project>
