@@ -1,5 +1,10 @@
 
-dotnet pack src/HeyNineteen.VatNumber/HeyNineteen.VatNumber.csproj --configuration Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+VERSION=$1
+NUGET_API_KEY=$2
+echo $VERSION
+echo $NUGET_API_KEY
+
+dotnet pack src/HeyNineteen.VatNumber/HeyNineteen.VatNumber.csproj --configuration Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:PackageVersion=$VERSION
 
 echo "$1 $2";
-# dotnet nuget push src/HeyNineteen.VatNumber/bin/Release/HeyNineteen.VatNumber.1.0.0.nupkg --api-key <api-key> --source https://api.nuget.org/v3/index.json
+# dotnet nuget push src/HeyNineteen.VatNumber/bin/Release/HeyNineteen.VatNumber.$VERSION.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
