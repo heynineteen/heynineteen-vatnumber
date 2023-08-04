@@ -39,5 +39,7 @@ jobs:
          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
          echo "Tag name from github.ref_name: ${{  github.ref }}"
+         package_version="${{  github.ref_name }}"
+         echo "Package version: ${package_version:1}"
          chmod +x create-nuget-package
-         ./create-nuget-package ${{  github.ref_name:1 }} ${{ secrets.nuget_api_key }}
+         ./create-nuget-package ${package_version:1} ${{ secrets.nuget_api_key }}
